@@ -28,4 +28,10 @@ class growingArrTest {
         assertDoesNotThrow(()->new growingArr(new int[]{1,2,3,0,0}).set(2,4));
         assertThrows(NoSuchElementException.class, ()->new growingArr(new int[]{1,2,3,0,0}).set(8,4));
     }
+
+    @Test
+    void insert(){
+        assertDoesNotThrow(()-> new growingArr(new int[]{1,2,3,0,0}).insert(2, 4));
+        assertThrows(NoSuchElementException.class, ()->new growingArr(new int[]{1,2,3,0,0}).insert(5,4));
+    }
 }

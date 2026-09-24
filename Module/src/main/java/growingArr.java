@@ -105,10 +105,97 @@ public class growingArr {
         throw new NoSuchElementException();
     }
 
+    /** Accepts and index and an element, and inserts the given item at the given index, moving later elements up by one */
+    public void insert(int index, int newVal){
+        int sub1;
+        int sub2;
+        if (index>numArray.length-1) {
+            throw new NoSuchElementException();
+        }
+        for (int x = 0; x < numArray.length; x++) {
+            if (x == index) {
+                sub1 = numArray[x];
+                numArray[x] = newVal;
+                for (int i = x+1; i<numArray.length; i++){
+                    sub2 = numArray[i];
+                    numArray[i] = sub1;
+                    sub1 = sub2;
+                }
+                return;
+            }
+        }
+    }
+
+    /** Accepts an element and adds it to the start of a list */
+    public void addToStart(int newVal){
+        int sub1;
+        int sub2;
+        sub1 = numArray[0];
+        numArray[0] = newVal;
+        for (int i = 1; i < numArray.length; i++) {
+            sub2 = numArray[i];
+            numArray[i] = sub1;
+            sub1 = sub2;
+        }
+    }
+
+    /** Accepts an element and adds it to the end of a list */
+    public void addToEnd(int newVal){
+        for (int x = 0; x<numArray.length; x++){
+            if (numArray[x]==0){
+                numArray[x]=newVal;
+                return;
+            }
+        }
+    }
+
+    /** Removes an element at a given index */
+    public void remove(int index){
+        if (index>numArray.length-1){
+            throw new NoSuchElementException();
+        } else {
+            numArray[index] = 0;
+            for (int x=index; x<numArray.length-1; x++){
+                numArray[x] = numArray[x+1];
+            }
+        }
+    }
+
+    /** ArrayList vs growing Arr (differences) */
+    /** -->  When creating an ArrayList, unlike growArr, you don't have to give it a beginning set of values or a set length*/
+    /** --> .insert is known as .add for ArrayLists */
+    /** --> All ArrayList's methods run in constant time, unlike growingArr's which are linear*/
+
     static void main(String[] args){
         growingArr ex1 = new growingArr(new int[]{1,3,4,6,0,0,0,0});
         growingArr ex2 = new growingArr(new int[]{0,0,0,0});
-        IO.println(ex1.empty().equalElts(ex2));
+
+//        IO.println(ex1.empty().equalElts(ex2));
+
+        /** Testing .insert method */
+//        ex1.insert(2,5);
+//        for (int j : ex1.numArray){
+//            IO.println(j);
+//        }
+
+        /** Testing .addToStart method */
+//        ex1.addToStart(3);
+//        for (int j : ex1.numArray){
+//            IO.println(j);
+//        }
+
+        /** Testing .addToEnd method */
+//        ex1.addToEnd(3);
+//        for (int j : ex1.numArray){
+//            IO.println(j);
+//        }
+
+        /** Testing .remove method */
+        ex1.remove(1);
+        for (int j : ex1.numArray){
+            IO.println(j);
+        }
+
     }
 
 
