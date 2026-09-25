@@ -24,13 +24,13 @@ public class growingArr {
     }
 
     /** Accepts a new int to add to the growing array and increases the liveCount */
-    /** --> If the array is overfull, your code will have to create a fresh array of double the size, and copy the elements */
+    /** --> If the array is overfull, the code will have to create a fresh array of double the size, and copy the elements */
     public void add(int n){
         int full = 0;
         for (int i = 0; i<numArray.length; i++) {
             if (numArray[i]==0) {
-                numArray[i] = n;
                 liveCount++;
+                numArray[i] = n;
                 break;
             }
             if (numArray[i]!=0){
@@ -74,14 +74,8 @@ public class growingArr {
     }
 
     /** Constructs a new object representing the empty list of integers */
-    public growingArr empty(){
-        int zeroCount = 0;
-        for (int x=0; x<numArray.length; x++){
-            if (numArray[x]==0){
-                zeroCount++;
-            }
-        }
-        return new growingArr(new int[zeroCount]);
+    public static growingArr empty(){
+        return new growingArr(new int[1]);
     }
 
     /** Accepts an index and returns the element at that index */
@@ -168,9 +162,7 @@ public class growingArr {
 
     static void main(String[] args){
         growingArr ex1 = new growingArr(new int[]{1,3,4,6,0,0,0,0});
-        growingArr ex2 = new growingArr(new int[]{0,0,0,0});
-
-//        IO.println(ex1.empty().equalElts(ex2));
+        growingArr ex2 = empty();
 
         /** Testing .insert method */
 //        ex1.insert(2,5);
@@ -191,10 +183,10 @@ public class growingArr {
 //        }
 
         /** Testing .remove method */
-        ex1.remove(1);
-        for (int j : ex1.numArray){
-            IO.println(j);
-        }
+//        ex1.remove(1);
+//        for (int j : ex1.numArray){
+//            IO.println(j);
+//        }
 
     }
 
