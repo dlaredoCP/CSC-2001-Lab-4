@@ -2,68 +2,25 @@ import java.util.NoSuchElementException;
 
 public class growingArr {
     private int liveCount;
-    private int[] numArray;
+    private Integer[] numArray;
 
-    public growingArr(int[] numarray){
-        liveCount = 0;
-        for (int i = 0; i<numarray.length; i++){
-            if (numarray[i]!=0){
-                liveCount++;
-            }
-        }
+    public growingArr(Integer[] numarray, Integer livecount) {
         numArray = numarray;
+        liveCount = livecount;
     }
 
-    /** I made these getters, so that I can test the add method in Main.java since it's a void method*/
-    public int[] getArray(){
-        return numArray;
-    }
-
-    public int getLiveCount(){
+    /**
+     * Returns the number of elements in the list represented by the object
+     */
+    public int length() {
         return liveCount;
     }
 
-    /** Accepts a new int to add to the growing array and increases the liveCount */
-    /** --> If the array is overfull, the code will have to create a fresh array of double the size, and copy the elements */
-    public void add(int n){
-        int full = 0;
-        for (int i = 0; i<numArray.length; i++) {
-            if (numArray[i]==0) {
-                liveCount++;
-                numArray[i] = n;
-                break;
-            }
-            if (numArray[i]!=0){
-                full++;
-            }
-        }
-        if (full==numArray.length){
-            int[] newArray = new int[numArray.length*2];
-            for (int i=0; i<numArray.length; i++){
-                newArray[i] = numArray[i];
-            }
-            newArray[numArray.length] = n;
-            liveCount++;
-            numArray = newArray;
-        }
-    }
-
-    /** Returns the number of elements in the list represented by the object */
-    public int length(){
-        int len = 0;
-        for (int x=0; x<numArray.length; x++){
-            if (numArray[x]!=0){
-                len++;
-            }
-        }
-        return len;
-    }
-
     /** Accepts another object of your class and returns true when they contain the same elements */
-    public boolean equalElts(growingArr a){
-        if (length()==a.length()){
-            for (int x=0; x<a.length(); x++){
-                if (a.numArray[x] != numArray[x]){
+    public boolean equalElts(growingArr a) {
+        if (length() == a.length()) {
+            for (int x = 0; x < a.length(); x++) {
+                if (a.numArray[x].equals(numArray[x])) {
                     return false;
                 }
             }
@@ -74,19 +31,20 @@ public class growingArr {
     }
 
     /** Constructs a new object representing the empty list of integers */
-    public static growingArr empty(){
-        return new growingArr(new int[1]);
+    public static growingArr empty() {
+        return new growingArr(null, 0);
     }
 
     /** Accepts an index and returns the element at that index */
-    public int get(int index){
-        for (int x = 0; x<numArray.length; x++){
-            if (x==index){
+    public Integer get(int index) {
+        for (int x = 0; x < numArray.length; x++) {
+            if (x == index) {
                 return numArray[x];
             }
         }
         throw new NoSuchElementException();
     }
+
 
     /** Accepts an index and a new value and mutates the underlying array to contain the new value at the given index */
     public void set(int index, int newVal){
@@ -101,94 +59,93 @@ public class growingArr {
 
     /** Accepts and index and an element, and inserts the given item at the given index, moving later elements up by one */
     public void insert(int index, int newVal){
-        int sub1;
-        int sub2;
-        if (index>numArray.length-1) {
+        if (numArray==null){
+            throw new IllegalArgumentException();
+        } else
+        if (index > numArray.length-1){
             throw new NoSuchElementException();
-        }
-        for (int x = 0; x < numArray.length; x++) {
-            if (x == index) {
-                sub1 = numArray[x];
-                numArray[x] = newVal;
-                for (int i = x+1; i<numArray.length; i++){
-                    sub2 = numArray[i];
-                    numArray[i] = sub1;
-                    sub1 = sub2;
-                }
-                return;
+        } else {
+            Integer[] replace = new Integer[numArray.length+1];
+            for (int a = 0; a<index; a++){
+                replace[a] = numArray[a];
             }
+            replace[index] = newVal;
+            for (int b = index; b<numArray.length; b++){
+                replace[b+1] = numArray[b];
+            }
+            numArray = replace;
+            liveCount++;
         }
     }
 
     /** Accepts an element and adds it to the start of a list */
     public void addToStart(int newVal){
-        int sub1;
-        int sub2;
-        sub1 = numArray[0];
-        numArray[0] = newVal;
-        for (int i = 1; i < numArray.length; i++) {
-            sub2 = numArray[i];
-            numArray[i] = sub1;
-            sub1 = sub2;
+        if (numArray == null){
+            numArray = new Integer[]{newVal};
+            liveCount++;
+        } else {
+            Integer[] newArr = new Integer[numArray.length+1];
+            newArr[0] = newVal;
+            for (int x = 0; x<numArray.length; x++){
+                newArr[x+1] = numArray[x];
+            }
+            numArray = newArr;
+            liveCount++;
         }
     }
 
     /** Accepts an element and adds it to the end of a list */
     public void addToEnd(int newVal){
-        for (int x = 0; x<numArray.length; x++){
-            if (numArray[x]==0){
-                numArray[x]=newVal;
-                return;
+        if (numArray == null){
+            numArray = new Integer[]{newVal};
+            liveCount++;
+        } else {
+            Integer[] newArr = new Integer[numArray.length+1];
+            for (int x=0; x<newArr.length; x++){
+                if (x==newArr.length-1){
+                    newArr[x]=newVal;
+                    liveCount++;
+                } else {
+                    newArr[x] = numArray[x];
+                }
             }
+            numArray = newArr;
         }
     }
 
     /** Removes an element at a given index */
     public void remove(int index){
-        if (index>numArray.length-1){
+        if (numArray==null){
+            throw new IllegalArgumentException();
+        } else
+        if (index > numArray.length-1){
             throw new NoSuchElementException();
         } else {
-            numArray[index] = 0;
-            for (int x=index; x<numArray.length-1; x++){
-                numArray[x] = numArray[x+1];
+            Integer[] replace = new Integer[numArray.length-1];
+            for (int a = 0; a<index; a++){
+                replace[a] = numArray[a];
             }
+            for (int b = index+1; b<numArray.length; b++){
+                replace[b] = numArray[b];
+            }
+            numArray = replace;
+            liveCount--;
         }
     }
 
-    /** ArrayList vs growing Arr (differences) */
-    /** -->  When creating an ArrayList, unlike growArr, you don't have to give it a beginning set of values or a set length*/
-    /** --> .insert is known as .add for ArrayLists */
-    /** --> All ArrayList's methods run in constant time, unlike growingArr's which are linear*/
+    /**
+     * ArrayList vs growing Arr (differences)
+     * --> growingArr only stores Integers while ArrayList can store other data types as well
+     * --> ArrayList has more methods like contains(), indexOf(), and clear()
+     * --> growingArr creates a brand-new array every time it grows or shrinks while ArrayList keeps extra unused capacity that it uses when it grows
+     * */
 
     static void main(String[] args){
-        growingArr ex1 = new growingArr(new int[]{1,3,4,6,0,0,0,0});
-        growingArr ex2 = empty();
-
-        /** Testing .insert method */
-//        ex1.insert(2,5);
-//        for (int j : ex1.numArray){
-//            IO.println(j);
-//        }
-
-        /** Testing .addToStart method */
-//        ex1.addToStart(3);
-//        for (int j : ex1.numArray){
-//            IO.println(j);
-//        }
-
-        /** Testing .addToEnd method */
-//        ex1.addToEnd(3);
-//        for (int j : ex1.numArray){
-//            IO.println(j);
-//        }
-
-        /** Testing .remove method */
-//        ex1.remove(1);
-//        for (int j : ex1.numArray){
-//            IO.println(j);
-//        }
-
+        growingArr ex1 = empty();
+        ex1.addToEnd(1);
+        ex1.addToEnd(3);
+        ex1.addToEnd(4);
+        ex1.addToStart(7);
     }
-
 
 }

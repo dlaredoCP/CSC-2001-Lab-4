@@ -16,13 +16,5 @@ public class Main {
         int[] intarray1 = {3,10,17,2,190,46,77,31,8,5};
         int[] intarray2 = {6,18,19,4,0};
         int[] intarray3 = {5,5,18,900,76,34,43,2,3,2,124,589};
-
-        growingArr first = new growingArr(intarray2);
-        first.add(3);
-        first.add(19);
-        for (int i = 0; i<first.getArray().length; i++){
-            IO.println(first.getArray()[i]);
-        }
-        IO.println(first.getLiveCount());
     }
 }
