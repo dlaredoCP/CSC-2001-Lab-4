@@ -4,14 +4,12 @@ public class growingArr {
     private int liveCount;
     private Integer[] numArray;
 
-    public growingArr(Integer[] numarray, Integer livecount) {
+    public growingArr(Integer[] numarray, int livecount) {
         numArray = numarray;
         liveCount = livecount;
     }
 
-    /**
-     * Returns the number of elements in the list represented by the object
-     */
+    /** Returns the number of elements in the list represented by the object */
     public int length() {
         return liveCount;
     }
@@ -32,29 +30,27 @@ public class growingArr {
 
     /** Constructs a new object representing the empty list of integers */
     public static growingArr empty() {
-        return new growingArr(null, 0);
+        return new growingArr(new Integer[1], 0);
     }
 
     /** Accepts an index and returns the element at that index */
     public Integer get(int index) {
-        for (int x = 0; x < numArray.length; x++) {
-            if (x == index) {
-                return numArray[x];
-            }
+        if (index>numArray.length){
+            throw new NoSuchElementException();
+        } else {
+            return numArray[index];
         }
-        throw new NoSuchElementException();
     }
 
 
     /** Accepts an index and a new value and mutates the underlying array to contain the new value at the given index */
     public void set(int index, int newVal){
-        for (int x = 0; x<numArray.length; x++){
-            if (x==index){
-                numArray[index]=newVal;
-                return;
-            }
+        if (index>numArray.length){
+            throw new NoSuchElementException();
         }
-        throw new NoSuchElementException();
+        else {
+            numArray[index]=newVal;
+        }
     }
 
     /** Accepts and index and an element, and inserts the given item at the given index, moving later elements up by one */
@@ -80,54 +76,28 @@ public class growingArr {
 
     /** Accepts an element and adds it to the start of a list */
     public void addToStart(int newVal){
-        if (numArray == null){
-            numArray = new Integer[]{newVal};
-            liveCount++;
-        } else {
-            Integer[] newArr = new Integer[numArray.length+1];
-            newArr[0] = newVal;
-            for (int x = 0; x<numArray.length; x++){
-                newArr[x+1] = numArray[x];
-            }
-            numArray = newArr;
-            liveCount++;
+        Integer[] newArr = new Integer[length()+1];
+        newArr[0] = newVal;
+        for (int x = 0; x<numArray.length; x++){
+            newArr[x+1] = numArray[x];
         }
+        numArray = newArr;
+        liveCount++;
     }
 
     /** Accepts an element and adds it to the end of a list */
     public void addToEnd(int newVal){
-        if (numArray == null){
-            numArray = new Integer[]{newVal};
-            liveCount++;
-        } else {
-            Integer[] newArr = new Integer[numArray.length+1];
-            for (int x=0; x<newArr.length; x++){
-                if (x==newArr.length-1){
-                    newArr[x]=newVal;
-                    liveCount++;
-                } else {
-                    newArr[x] = numArray[x];
-                }
-            }
-            numArray = newArr;
-        }
+        numArray[length()-1] = newVal;
     }
 
     /** Removes an element at a given index */
     public void remove(int index){
-        if (numArray==null){
-            throw new IllegalArgumentException();
-        } else
         if (index > numArray.length-1){
             throw new NoSuchElementException();
         } else {
             Integer[] replace = new Integer[numArray.length-1];
-            for (int a = 0; a<index; a++){
-                replace[a] = numArray[a];
-            }
-            for (int b = index+1; b<numArray.length; b++){
-                replace[b] = numArray[b];
-            }
+            System.arraycopy(numArray, 0, replace, 0, index-1);
+            System.arraycopy(numArray, index+1, replace, index, length()-index-1);
             numArray = replace;
             liveCount--;
         }

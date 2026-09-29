@@ -15,35 +15,29 @@ class growingArrTest {
 
     @Test
     void length(){
-        growingArr ex1 = growingArr.empty();
-        ex1.addToEnd(1);
-        ex1.addToEnd(3);
-        ex1.addToEnd(4);
-        ex1.addToStart(7);
-
+        growingArr ex1 = new growingArr(new Integer[]{1,3,4,5}, 4);
         assertEquals(4, ex1.length());
     }
 
     @Test
     void get(){
-        growingArr ex1 = growingArr.empty();
-        ex1.addToEnd(1);
-        ex1.addToEnd(3);
-        ex1.addToEnd(4);
-        ex1.addToStart(7);
-
-        assertThrows(NoSuchElementException.class, () -> ex1.get(5));
+        growingArr ex1 = new growingArr(new Integer[]{1,3,4,5}, 4);
+        assertEquals(4, ex1.get(2));
     }
 
     @Test
     void set(){
-        growingArr ex1 = growingArr.empty();
-        ex1.addToEnd(1);
-        ex1.addToEnd(3);
-        ex1.addToEnd(4);
-        ex1.addToStart(7);
+        growingArr ex1 = new growingArr(new Integer[]{1,3,4,5}, 4);
+        ex1.set(1,1);
+        assertEquals(1, ex1.get(1));
+    }
 
-        assertThrows(NoSuchElementException.class, () -> ex1.set(5,5));
+    @Test
+    void remove(){
+        growingArr ex1 = new growingArr(new Integer[]{1,3,4,5}, 4);
+        growingArr ex2 = new growingArr(new Integer[]{1,3,4,5}, 4);
+        ex1.remove(1);
+        assertEquals(false, ex1.equalElts(ex2));
     }
 
     @Test
