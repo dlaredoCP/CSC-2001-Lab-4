@@ -41,6 +41,14 @@ class growingArrTest {
     }
 
     @Test
+    void addToEnd(){
+        growingArr ex1 = growingArr.empty();
+        ex1.addToStart(4);
+
+        assertEquals(1,ex1.length());
+    }
+
+    @Test
     void addToStart(){
         growingArr ex1 = growingArr.empty();
         ex1.addToStart(3);
