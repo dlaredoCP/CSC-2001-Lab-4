@@ -41,6 +41,14 @@ class growingArrTest {
     }
 
     @Test
+    void addToStart(){
+        growingArr ex1 = growingArr.empty();
+        ex1.addToStart(3);
+
+        assertEquals(1,ex1.length());
+    }
+
+    @Test
     void insert(){
         growingArr ex1 = growingArr.empty();
         growingArr ex2 = growingArr.empty();
@@ -48,7 +56,6 @@ class growingArrTest {
         ex2.addToEnd(3);
         ex2.addToEnd(4);
         ex2.addToStart(7);
-
-        assertThrows(IllegalArgumentException.class, ()-> ex1.insert(1,1));
+        assertThrows(NoSuchElementException.class, ()-> ex2.insert(10,1));
     }
 }
